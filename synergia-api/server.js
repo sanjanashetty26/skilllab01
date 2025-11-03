@@ -1,14 +1,13 @@
-// server.js
+
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+
 app.use(express.json()); // parse JSON bodies
 
-// In-memory storage
 let events = [
-  // sample event
+ 
   {
     id: 1,
     title: "Synergia Tech Talk",
@@ -19,7 +18,7 @@ let events = [
   }
 ];
 let bookings = [
-  // sample booking
+
   {
     id: 1,
     eventId: 1,
@@ -31,26 +30,14 @@ let bookings = [
   }
 ];
 
-// helper to get next id
+
 const nextId = (arr) => (arr.length ? Math.max(...arr.map(i => i.id)) + 1 : 1);
 
-/* -----------------------
-   Events endpoints
-   ----------------------- */
-
-/**
- * GET /events
- * Get all events
- */
 app.get('/events', (req, res) => {
   res.json(events);
 });
 
-/**
- * POST /events/add
- * Create a new event
- * Body: { title, description, date, capacity, location }
- */
+
 app.post('/events/add', (req, res) => {
   const { title, description, date, capacity, location } = req.body;
   if (!title || !date || !capacity) {
@@ -100,11 +87,7 @@ app.put('/event/:id', (req, res) => {
   res.json(events[evIndex]);
 });
 
-/**
- * DELETE /event/:id
- * Cancel an event (remove from array)
- * Also optionally removes bookings for that event
- */
+
 app.delete('/event/:id', (req, res) => {
   const id = Number(req.params.id);
   const evIndex = events.findIndex(e => e.id === id);
@@ -118,14 +101,6 @@ app.delete('/event/:id', (req, res) => {
   res.json({ message: 'Event cancelled', event: deletedEvent });
 });
 
-/* -----------------------
-   Bookings endpoints (under /api/bookings)
-   ----------------------- */
-
-/**
- * GET /api/bookings
- * Get all bookings
- */
 app.get('/api/bookings', (req, res) => {
   res.json(bookings);
 });
@@ -202,10 +177,7 @@ app.put('/api/bookings/:id', (req, res) => {
   res.json(bookings[idx]);
 });
 
-/**
- * DELETE /api/bookings/:id
- * Cancel a booking
- */
+
 app.delete('/api/bookings/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = bookings.findIndex(b => b.id === id);
@@ -214,9 +186,7 @@ app.delete('/api/bookings/:id', (req, res) => {
   res.json({ message: 'Booking cancelled', booking: deleted });
 });
 
-/* -----------------------
-   Start server
-   ----------------------- */
+
 app.listen(PORT, () => {
   console.log(`Synergia API running on http://localhost:${PORT}`);
 });
