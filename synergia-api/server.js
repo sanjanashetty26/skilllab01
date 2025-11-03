@@ -55,10 +55,7 @@ app.post('/events/add', (req, res) => {
   res.status(201).json(event);
 });
 
-/**
- * GET /event/:id
- * Get event by ID
- */
+
 app.get('/event/:id', (req, res) => {
   const id = Number(req.params.id);
   const ev = events.find(e => e.id === id);
@@ -66,11 +63,7 @@ app.get('/event/:id', (req, res) => {
   res.json(ev);
 });
 
-/**
- * PUT /event/:id
- * Update event details
- * Body may contain any event fields to update
- */
+
 app.put('/event/:id', (req, res) => {
   const id = Number(req.params.id);
   const evIndex = events.findIndex(e => e.id === id);
@@ -105,11 +98,7 @@ app.get('/api/bookings', (req, res) => {
   res.json(bookings);
 });
 
-/**
- * POST /api/bookings
- * Create a new booking
- * Body: { eventId, name, email, phone, seats }
- */
+
 app.post('/api/bookings', (req, res) => {
   const { eventId, name, email, phone, seats } = req.body;
   if (!eventId || !name || !email || !seats) {
@@ -169,7 +158,7 @@ app.put('/api/bookings/:id', (req, res) => {
     bookings[idx].seats = newSeats;
   }
 
-  // update other fields
+
   ['name','email','phone'].forEach(k => {
     if (update[k] !== undefined) bookings[idx][k] = update[k];
   });
